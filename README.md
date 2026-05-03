@@ -55,7 +55,7 @@ cd ../frontend && npm install
 
 ```bash
 cd backend
-npm run dev
+node server.js
 ```
 
 ### Start Frontend (port 3000)
