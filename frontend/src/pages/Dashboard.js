@@ -1,9 +1,10 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import ExpenseForm from "../components/ExpenseForm";
 import ExpenseList from "../components/ExpenseList";
 import ExpenseChart from "../components/ExpenseChart";
 import { createExpense, getExpenses, removeExpense } from "../services/expenseService";
+import "./Dashboard.css";
 
 const categories = ["All", "Food", "Transport", "Entertainment", "Others"];
 
@@ -21,25 +22,25 @@ const Dashboard = () => {
     return raw ? JSON.parse(raw) : null;
   }, []);
 
-  const fetchExpenses = async () => {
-    try {
-      setLoading(true);
-      const data = await getExpenses();
-      setExpenses(data);
-    } catch (apiError) {
-      setError(apiError.response?.data?.message || "Failed to load expenses.");
-      if (apiError.response?.status === 401) {
-        localStorage.clear();
-        navigate("/login");
-      }
-    } finally {
-      setLoading(false);
+  const fetchExpenses = useCallback(async () => {
+  try {
+    setLoading(true);
+    const data = await getExpenses();
+    setExpenses(data);
+  } catch (apiError) {
+    setError(apiError.response?.data?.message || "Failed to load expenses.");
+    if (apiError.response?.status === 401) {
+      localStorage.clear();
+      navigate("/login");
     }
-  };
+  } finally {
+    setLoading(false);
+  }
+}, [navigate]);
 
   useEffect(() => {
-    fetchExpenses();
-  }, []);
+  fetchExpenses();
+}, [fetchExpenses]);
 
   const handleAddExpense = async (payload) => {
     try {

@@ -23,14 +23,14 @@ const ExpenseChart = ({ expenses }) => {
               <Cell key={entry.name} fill={COLORS[index % COLORS.length]} />
             ))}
           </Pie>
-          <Tooltip formatter={(value) => `$${Number(value).toFixed(2)}`} />
+          <Tooltip formatter={(value) => `₹${Number(value).toFixed(2)}`} />
         </PieChart>
       </ResponsiveContainer>
       <div className="legend">
         {chartData.map((item, index) => (
           <span key={item.name}>
             <i style={{ backgroundColor: COLORS[index % COLORS.length] }} />
-            {item.name}: ${item.value.toFixed(2)}
+            {item.name}: ₹{item.value.toFixed(2)}
           </span>
         ))}
       </div>

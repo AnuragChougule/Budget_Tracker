@@ -13,7 +13,7 @@ const ExpenseList = ({ expenses, onDelete, loadingDeleteId }) => {
             <small>{new Date(expense.date).toLocaleDateString()}</small>
           </div>
           <div className="expense-actions">
-            <strong>${Number(expense.amount).toFixed(2)}</strong>
+            <strong>₹{Number(expense.amount).toFixed(2)}</strong>
             <button
               className="btn-danger"
               type="button"
