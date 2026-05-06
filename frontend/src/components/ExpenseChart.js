@@ -1,39 +1,60 @@
-import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
+import React, { useMemo } from 'react';
+import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip, Legend } from 'recharts';
 
-const COLORS = ["#4f46e5", "#0ea5e9", "#22c55e", "#f97316"];
+// Colors that match your FinancePulse dark theme
+const COLORS = ["#7c6ef7", "#4ade80", "#fbbf24", "#60a5fa", "#f87171"];
 
 const ExpenseChart = ({ expenses }) => {
-  const totals = expenses.reduce((acc, expense) => {
-    acc[expense.category] = (acc[expense.category] || 0) + Number(expense.amount);
-    return acc;
-  }, {});
+  // Aggregate data by category
+  const totals = useMemo(() => {
+    return expenses.reduce((acc, expense) => {
+      const category = expense.category || "Others";
+      acc[category] = (acc[category] || 0) + Number(expense.amount);
+      return acc;
+    }, {});
+  }, [expenses]);
 
-  const chartData = Object.entries(totals).map(([name, value]) => ({ name, value }));
+  const chartData = useMemo(() => 
+    Object.entries(totals).map(([name, value]) => ({ name, value })), 
+  [totals]);
 
-  if (!chartData.length) {
-    return <p className="empty-text">Add expenses to see the chart.</p>;
+  if (chartData.length === 0) {
+    return (
+      <div className="empty-state">
+        <p>No expense data to visualize yet.</p>
+      </div>
+    );
   }
 
   return (
-    <div className="chart-wrap">
-      <ResponsiveContainer width="100%" height={280}>
+    <div className="chart-container">
+      <ResponsiveContainer width="100%" height={250}>
         <PieChart>
-          <Pie data={chartData} dataKey="value" nameKey="name" outerRadius={90} label>
+          <Pie
+            data={chartData}
+            dataKey="value"
+            nameKey="name"
+            innerRadius={60}
+            outerRadius={80}
+            paddingAngle={5}
+            cornerRadius={6}
+          >
             {chartData.map((entry, index) => (
-              <Cell key={entry.name} fill={COLORS[index % COLORS.length]} />
+              <Cell key={entry.name} fill={COLORS[index % COLORS.length]} stroke="none" />
             ))}
           </Pie>
-          <Tooltip formatter={(value) => `₹${Number(value).toFixed(2)}`} />
+          <Tooltip 
+            contentStyle={{ 
+              backgroundColor: '#161b27', 
+              borderColor: 'rgba(255,255,255,0.1)', 
+              borderRadius: '12px',
+              color: '#e8eaf0' 
+            }}
+            formatter={(value) => [`₹${Number(value).toLocaleString()}`, 'Amount']}
+          />
+          <Legend wrapperStyle={{ color: '#c4c9d8', fontSize: '12px' }} />
         </PieChart>
       </ResponsiveContainer>
-      <div className="legend">
-        {chartData.map((item, index) => (
-          <span key={item.name}>
-            <i style={{ backgroundColor: COLORS[index % COLORS.length] }} />
-            {item.name}: ₹{item.value.toFixed(2)}
-          </span>
-        ))}
-      </div>
     </div>
   );
 };

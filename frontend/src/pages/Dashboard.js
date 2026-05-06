@@ -4,7 +4,7 @@ import ExpenseForm from "../components/ExpenseForm";
 import ExpenseList from "../components/ExpenseList";
 import ExpenseChart from "../components/ExpenseChart";
 import { createExpense, getExpenses, removeExpense } from "../services/expenseService";
-import "./Dashboard.css";
+import "./Dashboard.css"; // Ensure this import matches your filename
 
 const categories = ["All", "Food", "Transport", "Entertainment", "Others"];
 
@@ -22,25 +22,33 @@ const Dashboard = () => {
     return raw ? JSON.parse(raw) : null;
   }, []);
 
+  // Calculate statistics for the new stats-row
+  const stats = useMemo(() => {
+    const total = expenses.reduce((acc, curr) => acc + (parseFloat(curr.amount) || 0), 0);
+    const count = expenses.length;
+    const avg = count > 0 ? (total / count).toFixed(2) : 0;
+    return { total, count, avg };
+  }, [expenses]);
+
   const fetchExpenses = useCallback(async () => {
-  try {
-    setLoading(true);
-    const data = await getExpenses();
-    setExpenses(data);
-  } catch (apiError) {
-    setError(apiError.response?.data?.message || "Failed to load expenses.");
-    if (apiError.response?.status === 401) {
-      localStorage.clear();
-      navigate("/login");
+    try {
+      setLoading(true);
+      const data = await getExpenses();
+      setExpenses(data);
+    } catch (apiError) {
+      setError(apiError.response?.data?.message || "Failed to load expenses.");
+      if (apiError.response?.status === 401) {
+        localStorage.clear();
+        navigate("/login");
+      }
+    } finally {
+      setLoading(false);
     }
-  } finally {
-    setLoading(false);
-  }
-}, [navigate]);
+  }, [navigate]);
 
   useEffect(() => {
-  fetchExpenses();
-}, [fetchExpenses]);
+    fetchExpenses();
+  }, [fetchExpenses]);
 
   const handleAddExpense = async (payload) => {
     try {
@@ -73,58 +81,106 @@ const Dashboard = () => {
     navigate("/login");
   };
 
-  const filteredExpenses =
-    selectedCategory === "All"
+  const filteredExpenses = useMemo(() => {
+    return selectedCategory === "All"
       ? expenses
       : expenses.filter((expense) => expense.category === selectedCategory);
+  }, [expenses, selectedCategory]);
 
   return (
-    <main className="dashboard-page">
-      <header className="dashboard-header">
-        <div>
-          <h2>Expense Dashboard</h2>
-          <p>Hello {user?.name || "User"}, keep your spending in control.</p>
-        </div>
-        <button className="btn-secondary" type="button" onClick={handleLogout}>
-          Logout
-        </button>
-      </header>
+    <div className="dashboard-page">
+      <div className="container">
+        
+        {/* Header Section */}
+        <header className="dashboard-header">
+          <div className="brand-group">
+            <h1>FinancePulse</h1>
+            <p className="welcome-text">
+              Welcome back, <span>{user?.name || "User"}</span>. Here's your financial status.
+            </p>
+          </div>
+          <button className="btn-logout" onClick={handleLogout}>
+            Logout
+          </button>
+        </header>
 
-      {error && <p className="error-text">{error}</p>}
-
-      <section className="dashboard-grid">
-        <ExpenseForm onSubmit={handleAddExpense} loading={saving} />
-        <div className="card">
-          <h3>Category Distribution</h3>
-          <ExpenseChart expenses={filteredExpenses} />
+        {/* Stats Row */}
+        <div className="stats-row">
+          <div className="stat-card">
+            <div className="stat-label">Total Spent</div>
+            <div className="stat-value accent">₹{stats.total.toLocaleString()}</div>
+            <div className="stat-sub">Across {stats.count} transactions</div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-label">Transactions</div>
+            <div className="stat-value">{stats.count}</div>
+            <div className="stat-sub">Lifetime records</div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-label">Avg Transaction</div>
+            <div className="stat-value">₹{stats.avg}</div>
+            <div className="stat-sub">Per expense entry</div>
+          </div>
         </div>
-      </section>
 
-      <section className="card">
-        <div className="list-header">
-          <h3>Expenses</h3>
-          <select
-            value={selectedCategory}
-            onChange={(event) => setSelectedCategory(event.target.value)}
-          >
-            {categories.map((category) => (
-              <option key={category} value={category}>
-                {category}
-              </option>
-            ))}
-          </select>
+        {error && <div className="global-error">{error}</div>}
+
+        <div className="dashboard-grid">
+          {/* Sidebar Area: Form */}
+          <aside className="sidebar-section">
+            <div className="card form-card">
+              <ExpenseForm onSubmit={handleAddExpense} loading={saving} />
+            </div>
+          </aside>
+
+          {/* Main Area: Chart and List */}
+          <main className="main-section">
+            <div className="card chart-card">
+              <div className="card-header">
+                <h3>Category Analysis</h3>
+                <span className="badge">Real-time</span>
+              </div>
+              <div className="chart-viewport">
+                <ExpenseChart expenses={filteredExpenses} />
+              </div>
+            </div>
+
+            <div className="card list-card">
+              <div className="list-header">
+                <h3>Transactions</h3>
+                <div className="filter-group">
+                  <label>Filter:</label>
+                  <select
+                    value={selectedCategory}
+                    onChange={(e) => setSelectedCategory(e.target.value)}
+                    className="category-select"
+                  >
+                    {categories.map((cat) => (
+                      <option key={cat} value={cat}>{cat}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <div className="list-content">
+                {loading ? (
+                  <div className="loader-container">
+                    <div className="spinner"></div>
+                    <p>Fetching your data...</p>
+                  </div>
+                ) : (
+                  <ExpenseList
+                    expenses={filteredExpenses}
+                    onDelete={handleDelete}
+                    loadingDeleteId={deletingId}
+                  />
+                )}
+              </div>
+            </div>
+          </main>
         </div>
-        {loading ? (
-          <p className="empty-text">Loading expenses...</p>
-        ) : (
-          <ExpenseList
-            expenses={filteredExpenses}
-            onDelete={handleDelete}
-            loadingDeleteId={deletingId}
-          />
-        )}
-      </section>
-    </main>
+      </div>
+    </div>
   );
 };
 

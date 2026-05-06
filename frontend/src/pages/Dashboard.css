@@ -1,172 +1,473 @@
-/* Page background */
-.dashboard-page {
-  padding: 30px 60px;
-  background: linear-gradient(to bottom, #eaf2fb, #d9e6f7);
-  min-height: 100vh;
-  font-family: 'Segoe UI', sans-serif;
+/* ============================================================
+   FinancePulse — Dashboard Styles
+   Theme: Dark, editorial, finance-grade
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
+
+/* --- Reset & Base ------------------------------------------ */
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #0e1117;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #e8eaf0;
+  -webkit-font-smoothing: antialiased;
+}
+body {
+  margin: 0;
+  padding: 0;
+  /* The gradient (rgba) darkens the image so your white text stands out */
+  background: linear-gradient(rgba(14, 17, 23, 0.85), rgba(14, 17, 23, 0.85)), 
+              url('/dashboard-bg.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #e8eaf0;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Header */
+/* --- Page Layout ------------------------------------------- */
+.dashboard-page {
+  min-height: 100vh;
+  padding: 2rem 1.25rem;
+}
+
+.container {
+  max-width: 1140px;
+  margin: 0 auto;
+}
+
+/* --- Header ------------------------------------------------ */
 .dashboard-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 25px;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.08);
 }
 
-.dashboard-header h2 {
-  font-size: 28px;
-  color: #1e4fa3;
-  font-weight: 700;
+.brand-group h1 {
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: 1.85rem;
+  font-weight: 400;
+  margin: 0 0 4px;
+  color: #f0f2f7;
+  letter-spacing: -0.02em;
 }
 
-.dashboard-header p {
-  color: #6b7c93;
-  margin-top: 5px;
+.welcome-text {
+  margin: 0;
+  font-size: 0.84rem;
+  color: #6b7490;
+  font-weight: 300;
 }
 
-/* Logout button */
-.btn-secondary {
-  padding: 8px 18px;
-  border: none;
-  border-radius: 10px;
-  background: #e0e6ed;
+.welcome-text span {
+  color: #7c6ef7;
+  font-weight: 500;
+}
+
+.btn-logout {
+  background: rgba(255, 255, 255, 0.05);
+  border: 0.5px solid rgba(255, 255, 255, 0.12);
+  color: #6b7490;
+  padding: 0.5rem 1.15rem;
+  border-radius: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 400;
   cursor: pointer;
-  transition: 0.3s;
+  transition: background 0.2s, color 0.2s;
 }
 
-.btn-secondary:hover {
-  background: #d1d9e6;
+.btn-logout:hover {
+  background: rgba(255, 255, 255, 0.09);
+  color: #e8eaf0;
 }
 
-/* Grid layout */
+/* --- Stats Row --------------------------------------------- */
+/* Drop this markup above .dashboard-grid in Dashboard.jsx:
+   <div className="stats-row">
+     <div className="stat-card">...</div>
+   </div>
+*/
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 1.5rem;
+}
+
+.stat-card {
+  background: #161b27;
+  border: 0.5px solid rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+  padding: 1.1rem 1.25rem;
+}
+
+.stat-label {
+  font-size: 10px;
+  font-weight: 500;
+  color: #3d4560;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.stat-value {
+  font-size: 1.45rem;
+  font-weight: 600;
+  color: #e8eaf0;
+  letter-spacing: -0.025em;
+  line-height: 1;
+}
+
+.stat-value.accent { color: #7c6ef7; }
+
+.stat-sub {
+  font-size: 11px;
+  color: #3d4560;
+  margin-top: 6px;
+}
+
+.stat-sub.positive { color: #4ade80; }
+.stat-sub.negative { color: #f87171; }
+
+/* --- Dashboard Grid --------------------------------------- */
 .dashboard-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 25px;
-  margin-bottom: 25px;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
 }
 
-/* Card style */
+@media (min-width: 960px) {
+  .dashboard-grid {
+    grid-template-columns: 320px 1fr;
+    align-items: start;
+  }
+}
+
+.main-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* --- Cards ------------------------------------------------ */
 .card {
-  background: white;
-  border-radius: 15px;
-  padding: 20px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  background: #161b27;
+  border: 0.5px solid rgba(255, 255, 255, 0.07);
+  border-radius: 16px;
+  overflow: hidden;
 }
 
-/* Titles */
-.card h3 {
-  margin-bottom: 15px;
-  color: #1e4fa3;
-}
-
-/* Expense list header */
+.card-header,
 .list-header {
+  padding: 1.1rem 1.3rem 0.95rem;
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.06);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 15px;
 }
 
-/* Dropdown */
-.list-header select {
-  padding: 8px 12px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  outline: none;
+.card-header h3,
+.list-header h3 {
+  margin: 0;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: #c4c9d8;
+  letter-spacing: 0.01em;
 }
 
-/* Empty text */
-.empty-text {
-  color: #7a8ca5;
+.badge {
+  background: rgba(124, 110, 247, 0.15);
+  color: #9d91f7;
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 5px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
-/* Error */
-.error-text {
-  color: red;
-  margin-bottom: 10px;
+/* --- Form Card -------------------------------------------- */
+.form-card { /* already .card */ }
+
+/* Target ExpenseForm internals — adapt selectors to your markup */
+.form-card form,
+.form-card .expense-form {
+  padding: 1.3rem;
 }
 
-/* ===== Improve form inputs (inside ExpenseForm) ===== */
-input,
-select {
+/* Field labels */
+.form-card label {
+  display: block;
+  font-size: 10px;
+  font-weight: 500;
+  color: #3d4560;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+/* Inputs & selects */
+.form-card input,
+.form-card select,
+.form-card textarea {
   width: 100%;
-  padding: 10px;
-  margin-bottom: 12px;
-  border-radius: 10px;
-  border: 1px solid #d0d7e2;
+  background: #0e1117;
+  border: 0.5px solid rgba(255, 255, 255, 0.1);
+  border-radius: 9px;
+  color: #e8eaf0;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.875rem;
+  padding: 0 0.85rem;
+  height: 40px;
   outline: none;
-  transition: 0.2s;
+  transition: border-color 0.2s;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
-input:focus,
-select:focus {
-  border-color: #2c6dc0;
-  box-shadow: 0 0 0 2px rgba(44, 109, 192, 0.2);
+.form-card textarea {
+  height: auto;
+  padding: 0.6rem 0.85rem;
+  resize: vertical;
 }
 
-/* Add Expense button */
-button[type="submit"] {
+.form-card input:focus,
+.form-card select:focus,
+.form-card textarea:focus {
+  border-color: rgba(124, 110, 247, 0.5);
+}
+
+.form-card input::placeholder { color: #3d4560; }
+
+/* Amount prefix symbol */
+.input-prefix {
+  position: relative;
+}
+
+.input-prefix::before {
+  content: '₹';
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #3d4560;
+  font-size: 13px;
+  pointer-events: none;
+}
+
+.input-prefix input { padding-left: 1.85rem; }
+
+/* Field spacing */
+.form-group,
+.form-field {
+  margin-bottom: 1rem;
+}
+
+/* Submit button */
+.form-card button[type="submit"],
+.form-card .btn-submit,
+.form-card .submit-btn {
   width: 100%;
-  padding: 12px;
-  border-radius: 12px;
+  padding: 0.7rem;
+  background: #7c6ef7;
+  color: #fff;
   border: none;
-  background: linear-gradient(135deg, #5b4bdb, #3b6be0);
-  color: white;
-  font-weight: 600;
+  border-radius: 9px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
   cursor: pointer;
-  transition: 0.3s;
+  margin-top: 0.25rem;
+  letter-spacing: 0.02em;
+  transition: background 0.2s, transform 0.1s;
 }
 
-button[type="submit"]:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 18px rgba(59, 107, 224, 0.3);
+.form-card button[type="submit"]:hover,
+.form-card .btn-submit:hover {
+  background: #6a5de8;
 }
 
-/* Form container */
-.form-container {
+.form-card button[type="submit"]:active {
+  transform: scale(0.985);
+}
+
+.form-card button[type="submit"]:disabled,
+.form-card .btn-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* --- Chart Card ------------------------------------------- */
+.chart-card .chart-viewport {
+  padding: 1.25rem 1.3rem;
+}
+
+/* --- List Card -------------------------------------------- */
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: #3d4560;
+}
+
+.category-select {
+  background: #0e1117;
+  border: 0.5px solid rgba(255, 255, 255, 0.1);
+  color: #c4c9d8;
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+}
+
+.list-content { /* wrapper for the expense rows */ }
+
+/* Individual expense rows — adapt to ExpenseList markup */
+.expense-item {
+  display: flex;
+  align-items: center;
+  padding: 0.85rem 1.3rem;
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.04);
+  gap: 12px;
+  transition: background 0.15s;
+}
+
+.expense-item:last-child { border-bottom: none; }
+.expense-item:hover { background: rgba(255, 255, 255, 0.02); }
+
+.expense-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+.expense-icon.food          { background: rgba(124, 110, 247, 0.15); }
+.expense-icon.transport     { background: rgba(74,  222, 128, 0.12); }
+.expense-icon.entertainment { background: rgba(251, 191,  36, 0.12); }
+.expense-icon.others        { background: rgba(96,  165, 250, 0.12); }
+
+.expense-meta { flex: 1; min-width: 0; }
+
+.expense-name {
+  font-size: 0.85rem;
+  color: #c4c9d8;
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.expense-date { font-size: 11px; color: #3d4560; }
+
+.expense-right {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  align-items: flex-end;
+  gap: 4px;
+  flex-shrink: 0;
 }
 
-/* Title */
-.form-title {
-  font-size: 20px;
-  color: #1e4fa3;
-  margin-bottom: 10px;
+.expense-amount {
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: #f87171;
 }
 
-/* Inputs */
-.form-input {
-  padding: 12px;
-  border-radius: 12px;
-  border: 1px solid #d0d7e2;
-  outline: none;
-  font-size: 14px;
-  transition: 0.2s;
+.expense-cat-pill {
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-weight: 500;
 }
 
-.form-input:focus {
-  border-color: #2c6dc0;
-  box-shadow: 0 0 0 2px rgba(44, 109, 192, 0.2);
-}
+.expense-cat-pill.food          { background: rgba(124, 110, 247, 0.15); color: #9d91f7; }
+.expense-cat-pill.transport     { background: rgba(74,  222, 128, 0.12); color: #4ade80; }
+.expense-cat-pill.entertainment { background: rgba(251, 191,  36, 0.12); color: #fbbf24; }
+.expense-cat-pill.others        { background: rgba(96,  165, 250, 0.12); color: #60a5fa; }
 
-/* Button */
-.form-button {
-  margin-top: 10px;
-  padding: 12px;
-  border-radius: 12px;
+.expense-delete-btn {
+  background: none;
   border: none;
-  background: linear-gradient(135deg, #5b4bdb, #3b6be0);
-  color: white;
-  font-weight: 600;
+  color: #3d4560;
   cursor: pointer;
-  transition: 0.3s;
+  padding: 4px;
+  border-radius: 5px;
+  font-size: 13px;
+  line-height: 1;
+  transition: color 0.15s, background 0.15s;
 }
 
-.form-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 18px rgba(59, 107, 224, 0.3);
+.expense-delete-btn:hover {
+  color: #f87171;
+  background: rgba(248, 113, 113, 0.1);
+}
+
+/* --- Empty & Loading States ------------------------------- */
+.loader-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 1rem;
+  color: #3d4560;
+  font-size: 0.82rem;
+  gap: 10px;
+}
+
+.spinner {
+  width: 22px;
+  height: 22px;
+  border: 2px solid rgba(124, 110, 247, 0.2);
+  border-top-color: #7c6ef7;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.empty-state {
+  padding: 2rem 1.3rem;
+  text-align: center;
+  color: #3d4560;
+  font-size: 0.83rem;
+}
+
+/* --- Global Error ----------------------------------------- */
+.global-error {
+  background: rgba(248, 113, 113, 0.08);
+  border: 0.5px solid rgba(248, 113, 113, 0.25);
+  color: #f87171;
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  font-size: 0.83rem;
+  margin-bottom: 1.25rem;
+}
+
+/* --- Responsive ------------------------------------------- */
+@media (max-width: 600px) {
+  .dashboard-page { padding: 1.25rem 0.9rem; }
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+  .stats-row .stat-card:last-child { grid-column: span 2; }
+  .brand-group h1 { font-size: 1.5rem; }
 }

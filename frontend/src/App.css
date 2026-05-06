@@ -3,10 +3,13 @@
   --primary-dark: #3730a3;
   --danger: #dc2626;
   --surface: #ffffff;
-  --bg: #f3f4f6;
-  --text: #111827;
-  --muted: #6b7280;
-  --border: #e5e7eb;
+  --bg: #f8fafc; /* Softer, cleaner gray */
+  --text: #0f172a; /* Darker, more readable text */
+  --muted: #64748b;
+  --border: #e2e8f0;
+  --radius: 12px;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 * {
@@ -16,27 +19,34 @@
 body {
   background: var(--bg);
   color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.5;
+  margin: 0;
 }
 
-input,
-select,
-button {
-  font: inherit;
-}
-
-input,
-select {
+/* Inputs and Forms */
+input, select {
   width: 100%;
   border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 0.7rem 0.85rem;
+  border-radius: var(--radius);
+  padding: 0.75rem 1rem;
+  transition: all 0.2s ease;
+  background: white;
 }
 
+input:focus, select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+/* Cards & Containers */
 .card {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 1rem;
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
 }
 
 .auth-page {
@@ -49,184 +59,68 @@ select {
 
 .auth-card {
   width: 100%;
-  max-width: 420px;
+  max-width: 400px;
   display: grid;
-  gap: 0.75rem;
+  gap: 1rem;
 }
 
-.auth-card h2 {
-  margin: 0;
-}
-
-.auth-card p {
-  margin: 0;
-  color: var(--muted);
-}
-
-.auth-footer a {
-  color: var(--primary);
-  text-decoration: none;
-}
-
+/* Dashboard Layout */
 .dashboard-page {
   max-width: 1100px;
-  margin: 0 auto;
-  padding: 1rem;
+  margin: 2rem auto;
+  padding: 0 1rem;
   display: grid;
-  gap: 1rem;
+  gap: 1.5rem;
 }
 
-.dashboard-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
+.dashboard-header h2 { font-size: 1.5rem; }
 
-.dashboard-header h2 {
-  margin: 0;
-}
-
-.dashboard-header p {
-  margin: 0.25rem 0 0;
-  color: var(--muted);
-}
-
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-}
-
-.form {
-  display: grid;
-  gap: 0.85rem;
-}
-
-.form-grid {
-  display: grid;
-  gap: 0.75rem;
-}
-
-.list-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 0.8rem;
-}
-
-.list-header select {
-  width: 200px;
-}
-
-.expense-list {
-  display: grid;
-  gap: 0.7rem;
-}
-
-.expense-item {
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 0.8rem;
-  display: flex;
-  justify-content: space-between;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-}
-
-.expense-item h4,
-.expense-item p {
-  margin: 0;
-}
-
-.expense-item small {
-  color: var(--muted);
-}
-
-.expense-actions {
-  display: grid;
-  gap: 0.5rem;
-  justify-items: end;
-}
-
-.btn-primary,
-.btn-secondary,
-.btn-danger {
-  border: 0;
-  border-radius: 8px;
-  padding: 0.65rem 0.95rem;
+/* Interactive Elements */
+button {
   cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  padding: 0.7rem 1.2rem;
+  border-radius: var(--radius);
+  border: none;
 }
 
 .btn-primary {
   background: var(--primary);
-  color: #ffffff;
+  color: white;
 }
 
 .btn-primary:hover {
   background: var(--primary-dark);
 }
 
-.btn-secondary {
-  background: #e5e7eb;
-}
-
 .btn-danger {
-  background: var(--danger);
-  color: #ffffff;
-}
-
-button:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-}
-
-.error-text {
+  background: #fee2e2;
   color: var(--danger);
-  margin: 0;
 }
 
-.empty-text {
-  color: var(--muted);
+.btn-danger:hover {
+  background: #fecaca;
 }
 
-.chart-wrap {
-  width: 100%;
-}
-
-.legend {
+/* Expense List */
+.expense-item {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem;
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-top: 0.5rem;
-}
-
-.legend span {
-  display: inline-flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 0.35rem;
-  font-size: 0.9rem;
+  transition: transform 0.1s ease;
 }
 
-.legend i {
-  width: 10px;
-  height: 10px;
-  border-radius: 999px;
+.expense-item:hover {
+  border-color: var(--primary);
 }
 
+/* Responsive Overrides */
 @media (max-width: 900px) {
   .dashboard-grid {
     grid-template-columns: 1fr;
-  }
-
-  .list-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .list-header select {
-    width: 100%;
   }
 }
