@@ -250,8 +250,8 @@ body {
   height: 40px;
   outline: none;
   transition: border-color 0.2s;
-  -webkit-appearance: none;
-  appearance: none;
+  /* -webkit-appearance: none;
+  appearance: none; */
 }
 
 .form-card textarea {
@@ -492,6 +492,7 @@ body {
   font-size: 0.83rem;
   margin-bottom: 1.25rem;
 }
+
 
 /* --- Responsive ------------------------------------------- */
 @media (max-width: 600px) {

@@ -3,11 +3,13 @@ import { useState } from "react";
 const initialState = {
   amount: "",
   category: "Food",
+  paymentMethod: "Cash",
   description: "",
   date: "",
 };
 
 const categories = ["Food", "Transport", "Entertainment", "Others"];
+const paymentMethods = ["Cash", "UPI"];
 
 const ExpenseForm = ({ onSubmit, loading }) => {
   const [formData, setFormData] = useState(initialState);
@@ -100,6 +102,22 @@ const ExpenseForm = ({ onSubmit, loading }) => {
           </select>
         </div>
 
+        <div>
+          <label className="block text-xs font-semibold text-gray-500 uppercase mb-1 ml-1">Payment Method</label>
+          <select
+            name="paymentMethod"
+            value={formData.paymentMethod}
+            onChange={handleChange}
+            className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all appearance-none cursor-pointer text-gray-700"
+          >
+            {paymentMethods.map((method) => (
+              <option key={method} value={method}>
+                {method}
+              </option>
+            ))}
+          </select>
+        </div>
+
         {/* Description Input */}
         <div>
           <label className="block text-xs font-semibold text-gray-500 uppercase mb-1 ml-1">Description</label>
@@ -115,11 +133,10 @@ const ExpenseForm = ({ onSubmit, loading }) => {
 
         {/* Submit Button */}
         <button
-          className={`w-full mt-2 py-3 px-4 rounded-xl font-bold text-white transition-all transform active:scale-95 ${
-            loading 
-              ? "bg-gray-400 cursor-not-allowed" 
-              : "bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg shadow-indigo-200"
-          }`}
+          className={`w-full mt-2 py-3 px-4 rounded-xl font-bold text-white transition-all transform active:scale-95 ${loading
+            ? "bg-gray-400 cursor-not-allowed"
+            : "bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg shadow-indigo-200"
+            }`}
           type="submit"
           disabled={loading}
         >

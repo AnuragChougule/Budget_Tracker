@@ -28,6 +28,12 @@ const expenseSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
+    paymentMethod: {
+      type: String,
+      enum: ["Cash", "UPI"],
+      default: "Cash",
+      required: true,
+    },
   },
   {
     timestamps: true,
