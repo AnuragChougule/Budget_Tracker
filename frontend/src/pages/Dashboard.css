@@ -52,7 +52,18 @@ body {
   padding-bottom: 1.5rem;
   border-bottom: 0.5px solid rgba(255, 255, 255, 0.08);
 }
+.form-card {
+  grid-area: form;
+}
 
+.chart-card {
+  grid-area: chart;
+}
+
+.list-card {
+  grid-area: list;
+  width: 100%;
+}
 .brand-group h1 {
   font-family: 'DM Serif Display', Georgia, serif;
   font-size: 1.85rem;
@@ -96,8 +107,8 @@ body {
 /* Drop this markup above .dashboard-grid in Dashboard.jsx:
    <div className="stats-row">
      <div className="stat-card">...</div>
-   </div>
-*/
+   </div> */
+
 .stats-row {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -110,6 +121,7 @@ body {
   border: 0.5px solid rgba(255, 255, 255, 0.07);
   border-radius: 12px;
   padding: 1.1rem 1.25rem;
+  width: 100%;
 }
 
 .stat-label {
@@ -144,12 +156,16 @@ body {
 .dashboard-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.25rem;
+  gap: 1.5rem;
 }
 
 @media (min-width: 960px) {
   .dashboard-grid {
-    grid-template-columns: 320px 1fr;
+    grid-template-columns: 350px 1fr;
+    grid-template-areas:
+      "form chart"
+      "list list";
+    gap: 1.5rem;
     align-items: start;
   }
 }
@@ -158,6 +174,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+  width: 100%;
 }
 
 /* --- Cards ------------------------------------------------ */
@@ -166,6 +183,7 @@ body {
   border: 0.5px solid rgba(255, 255, 255, 0.07);
   border-radius: 16px;
   overflow: hidden;
+  width: 100%;
 }
 
 .card-header,
@@ -198,7 +216,7 @@ body {
 }
 
 /* --- Form Card -------------------------------------------- */
-.form-card { /* already .card */ }
+
 
 /* Target ExpenseForm internals — adapt selectors to your markup */
 .form-card form,
@@ -336,16 +354,25 @@ body {
   cursor: pointer;
 }
 
-.list-content { /* wrapper for the expense rows */ }
+.list-card {
+  width: 100%;
+  grid-area: list;
+}
+
+.list-content {
+  width: 100%;
+}
 
 /* Individual expense rows — adapt to ExpenseList markup */
 .expense-item {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  padding: 0.85rem 1.3rem;
-  border-bottom: 0.5px solid rgba(255, 255, 255, 0.04);
-  gap: 12px;
-  transition: background 0.15s;
+
+  width: 100%;
+  padding: 1rem 1.5rem;
+
+  border-bottom: 0.5px solid rgba(255,255,255,0.04);
 }
 
 .expense-item:last-child { border-bottom: none; }
@@ -367,7 +394,10 @@ body {
 .expense-icon.entertainment { background: rgba(251, 191,  36, 0.12); }
 .expense-icon.others        { background: rgba(96,  165, 250, 0.12); }
 
-.expense-meta { flex: 1; min-width: 0; }
+.expense-meta {
+  flex: 1;
+  min-width: 0;
+}
 
 .expense-name {
   font-size: 0.85rem;
@@ -382,9 +412,8 @@ body {
 
 .expense-right {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 4px;
+  align-items: center;
+  gap: 20px;
   flex-shrink: 0;
 }
 

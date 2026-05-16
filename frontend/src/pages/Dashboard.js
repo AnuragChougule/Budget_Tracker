@@ -145,7 +145,9 @@ const Dashboard = () => {
               </div>
             </div>
 
-            <div className="card list-card">
+        
+          </main>
+              <div className="card list-card">
               <div className="list-header">
                 <h3>Transactions</h3>
                 <div className="filter-group">
@@ -177,7 +179,6 @@ const Dashboard = () => {
                 )}
               </div>
             </div>
-          </main>
         </div>
       </div>
     </div>
